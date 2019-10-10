@@ -6,4 +6,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build Docker Images
-      run: make all test TAG="$(branch="$(echo "$GITHUB_REF" | cut -d/ -f3-)"; case "$branch"  in master) echo latest;; *) echo "$branch";; esac)"
+      run: make all test
