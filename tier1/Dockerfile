@@ -4,7 +4,7 @@ RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.
     echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/99stretch && \
     apt-get update && \
     apt-get install -y curl jq python3-pip python3-dev cython3 libseccomp-dev \
-        python2 openjdk-11-jdk-headless clang && \
+        python2 openjdk-11-jdk-headless clang fp-compiler && \
     apt-get install -y -t stretch openjdk-8-jdk-headless && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
