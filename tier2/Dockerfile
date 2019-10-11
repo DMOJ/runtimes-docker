@@ -2,7 +2,7 @@ FROM dmoj/runtimes-tier1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        jq clang ocaml ghc racket scala && \
+        jq clang ocaml ghc racket scala ruby && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy-")) | .links.self.href][0]')" | \
