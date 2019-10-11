@@ -10,8 +10,8 @@ RUN apt-get update && \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
     mkdir /opt/rust && curl https://sh.rustup.rs -sSf | CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust sh -s -- -y && \
-    curl -LO http://downloads.dlang.org/releases/2.x/2.088.0/dmd_2.088.0-0_amd64.deb && \
-        apt install ./dmd_2.088.0-0_amd64.deb && rm dmd_2.088.0-0_amd64.deb && \
+    curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
+        apt install ./dmd.deb && rm dmd.deb && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     echo "deb https://download.mono-project.com/repo/debian stable-buster main" > \
         /etc/apt/sources.list.d/mono-official-stable.list && \
