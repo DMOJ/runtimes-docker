@@ -1,4 +1,6 @@
-TAG=latest
+TAG ?= latest
+
+.PHONY: image-tier1 image-tier2 image-tier3 test-tier1 test-tier2 test-tier3
 
 all: image-tier1 image-tier2 image-tier3
 
