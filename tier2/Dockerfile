@@ -17,8 +17,8 @@ RUN apt-get update && \
         /etc/apt/sources.list.d/mono-official-stable.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends mono-devel mono-vbnc fsharp && \
-    dpkg-divert --package chicken-bin --divert /usr/bin/csc --rename /usr/bin/chicken-csc && \
-    dpkg-divert --package chicken-bin --divert /usr/bin/csi --rename /usr/bin/chicken-csi && \
+    dpkg-divert --package mono-roslyn --add /usr/bin/csc --divert /usr/bin/chicken-csc && \
+    dpkg-divert --package mono-roslyn --add /usr/bin/csi --divert /usr/bin/chicken-csi && \
     apt-get install -y --no-install-recommends chicken-bin && \
     rm -rf /var/lib/apt/lists/*
 
