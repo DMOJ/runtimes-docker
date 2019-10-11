@@ -5,5 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build Docker Images
-      run: make all test
+    - name: Build Tier 1 Docker Image
+      run: make image-tier1
+    - name: Build Tier 2 Docker Image
+      run: make image-tier2
+    - name: Build Tier 3 Docker Image
+      run: make image-tier3
+    - name: Test Tier 1 Docker Image
+      run: make test-tier1
+    - name: Test Tier 2 Docker Image
+      run: make test-tier2
+    - name: Test Tier 3 Docker Image
+      run: make test-tier3
