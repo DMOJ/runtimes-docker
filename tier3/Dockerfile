@@ -13,6 +13,8 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
         unzip groovy.zip && \
         mkdir /opt/groovy && \
         mv groovy-*/* /opt/groovy && \
-        rm -rf groovy.zip groovy-*
+        rm -rf groovy.zip groovy-* && \
+    curl -L -okotlin.zip https://github.com/JetBrains/kotlin/releases/download/v1.3.50/kotlin-compiler-1.3.50.zip && \
+        unzip kotlin.zip && mv kotlinc /opt/kotlin && rm kotlin.zip
 
-ENV PATH "/opt/swift/usr/bin:/opt/groovy/bin:${PATH}"
+ENV PATH "/opt/swift/usr/bin:/opt/groovy/bin:/opt/kotlin/bin:${PATH}"
