@@ -2,7 +2,7 @@ FROM dmoj/runtimes-tier1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        jq apt-transport-https dirmngr gnupg ca-certificates clang ocaml ghc racket scala && \
+        jq apt-transport-https dirmngr gnupg ca-certificates clang ocaml ghc racket scala nasm && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy-")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy2 --strip-components=1 && /opt/pypy2/bin/pypy -mcompileall && \
@@ -16,7 +16,10 @@ RUN apt-get update && \
     echo "deb https://download.mono-project.com/repo/debian stable-buster main" > \
         /etc/apt/sources.list.d/mono-official-stable.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends mono-devel mono-vbnc && \
+    apt-get install -y --no-install-recommends mono-devel mono-vbnc fsharp && \
+    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csc --rename /usr/bin/csc && \
+    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csi --rename /usr/bin/csi && \
+    apt-get install -y --no-install-recommends chicken-bin && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH "/opt/rust/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"
