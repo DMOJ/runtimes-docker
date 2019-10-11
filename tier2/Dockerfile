@@ -9,6 +9,7 @@ RUN apt-get update && \
         tar xj -C /opt/pypy2 --strip-components=1 && /opt/pypy2/bin/pypy -mcompileall && \
     mkdir /opt/pypy3 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
-        tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall
+        tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-ENV PATH "/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"
+ENV PATH "${HOME}/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"
