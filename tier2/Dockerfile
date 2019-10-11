@@ -11,7 +11,7 @@ RUN apt-get update && \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
     mkdir /opt/rust && curl https://sh.rustup.rs -sSf | CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust sh -s -- -y && \
     curl -LO http://downloads.dlang.org/releases/2.x/2.071.1/dmd_2.071.1-0_amd64.deb && \
-        apt install dmd_2.071.1-0_amd64.deb && \
+        apt install ./dmd_2.071.1-0_amd64.deb && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     echo "deb https://download.mono-project.com/repo/debian stable-buster main" > \
         /etc/apt/sources.list.d/mono-official-stable.list && \
