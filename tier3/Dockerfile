@@ -16,6 +16,8 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
         rm -rf groovy.zip groovy-* && \
     curl -L -okotlin.zip "$(curl -s https://api.github.com/repos/JetBrains/kotlin/releases | \
             jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select(.name | startswith("kotlin-compiler")) | .browser_download_url][0]')" && \
-        unzip kotlin.zip && mv kotlinc /opt/kotlin && rm kotlin.zip
+        unzip kotlin.zip && mv kotlinc /opt/kotlin && rm kotlin.zip && \
+    curl -L -otprolog.zip "https://github.com/yingted/OpenTuring/releases/download/v1.0.0-beta/tprolog-v1.0.0-beta.zip" && \
+        unzip tprolog.zip && mv tprolog /opt && rm tprolog.zip
 
-ENV PATH "/opt/swift/usr/bin:/opt/groovy/bin:/opt/kotlin/bin:${PATH}"
+ENV PATH "/opt/tprolog:/opt/swift/usr/bin:/opt/groovy/bin:/opt/kotlin/bin:${PATH}"
