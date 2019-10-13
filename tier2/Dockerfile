@@ -1,5 +1,7 @@
 FROM dmoj/runtimes-tier1
 
+ENV CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates clang ocaml ghc golang racket ruby scala nasm && \
@@ -9,7 +11,7 @@ RUN apt-get update && \
     mkdir /opt/pypy3 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
-    mkdir /opt/rust && curl https://sh.rustup.rs -sSf | CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust sh -s -- -y && \
+    mkdir /opt/rust && curl https://sh.rustup.rs -sSf | sh -s -- -y && \
         /opt/rust/bin/rustup toolchain install stable && \
     curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
         apt install ./dmd.deb && rm dmd.deb && \
