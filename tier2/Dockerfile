@@ -12,6 +12,18 @@ RUN apt-get update && \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
     mkdir /opt/rust && curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+        mkdir rust && ( \
+            cd rust && \
+            curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
+                sed '/^CARGO_TOML/,/^'"'''"'/!d;//d' > Cargo.toml && \
+            curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
+                sed '/^CARGO_LOCK/,/^'"'''"'/!d;//d' > Cargo.lock && \
+            mkdir src && \
+            curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
+                sed '/^HELLO_WORLD_PROGRAM/,/^'"'''"'/!d;//d' > src/main.rs && \
+            cargo fetch \
+        ) && \
+        rm -rf rust && \
     curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
         apt install ./dmd.deb && rm dmd.deb && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
