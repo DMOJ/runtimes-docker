@@ -5,17 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build Tier 1 Docker Image
+    - name: Build tier 1 Docker image
       run: make image-tier1
-    - name: Build Tier 2 Docker Image
+    - name: Build tier 2 Docker image
       run: make image-tier2
-    - name: Build Tier 3 Docker Image
+    - name: Build tier 3 Docker image
       run: make image-tier3
-    - name: Test Tier 1 Docker Image
+    - name: Test tier 1 Docker image
       run: make test-tier1
-    - name: Test Tier 2 Docker Image
+    - name: Test tier 2 Docker image
       run: make test-tier2
-    - name: Test Tier 3 Docker Image
+    - name: Test tier 3 Docker image
       run: make test-tier3
     - name: Push images to Docker
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
