@@ -21,7 +21,7 @@ RUN apt-get update && \
             mkdir src && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
                 sed '/^HELLO_WORLD_PROGRAM/,/^'"'''"'/!d;//d' > src/main.rs && \
-            cargo fetch \
+            /opt/rust/bin/cargo fetch \
         ) && \
         rm -rf rust && \
     curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
