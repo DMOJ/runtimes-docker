@@ -17,3 +17,13 @@ jobs:
       run: make test-tier2
     - name: Test Tier 3 Docker Image
       run: make test-tier3
+    - name: Push images to Docker
+      if: github.event_name == 'push' && github.ref == 'refs/heads/docker-push'
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+        docker push dmoj/runtimes-tier1
+        docker push dmoj/runtimes-tier2
+        docker push dmoj/runtimes-tier3
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
