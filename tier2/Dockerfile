@@ -1,7 +1,5 @@
 FROM dmoj/runtimes-tier1
 
-ENV CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates clang ocaml ghc golang racket ruby scala nasm && \
@@ -11,7 +9,7 @@ RUN apt-get update && \
     mkdir /opt/pypy3 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
-    mkdir /opt/rust && curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+    su judge -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' && \
         mkdir rust && ( \
             cd rust && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
@@ -21,7 +19,8 @@ RUN apt-get update && \
             mkdir src && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
                 sed '/^HELLO_WORLD_PROGRAM/,/^'"'''"'/!d;//d' > src/main.rs && \
-            /opt/rust/bin/cargo fetch \
+            chown -R judge: . && \
+            su judge -c '/home/judge/.cargo/bin/cargo fetch' \
         ) && \
         rm -rf rust && \
     curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
@@ -38,4 +37,4 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends chicken-bin && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH "/opt/rust/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"
+ENV PATH "/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"

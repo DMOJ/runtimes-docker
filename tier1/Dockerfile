@@ -7,6 +7,7 @@ RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.
         curl file gcc g++ python3-pip python3-dev python3-setuptools python3-wheel cython3 libseccomp-dev bzip2 gzip \
         python2 openjdk-11-jdk-headless fp-compiler && \
     apt-get install -y -t stretch --no-install-recommends openjdk-8-jdk-headless && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    useradd -m judge
 
 ENTRYPOINT ["/code/run"]
