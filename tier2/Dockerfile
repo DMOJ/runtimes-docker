@@ -9,7 +9,7 @@ RUN apt-get update && \
     mkdir /opt/pypy3 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
-    su judge -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' && \
+    runuser judge -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' && \
         mkdir rust && ( \
             cd rust && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
@@ -20,7 +20,7 @@ RUN apt-get update && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
                 sed '/^HELLO_WORLD_PROGRAM/,/^'"'''"'/!d;//d' > src/main.rs && \
             chown -R judge: . && \
-            su judge -c '/home/judge/.cargo/bin/cargo fetch' \
+            runuser -u judge /home/judge/.cargo/bin/cargo fetch \
         ) && \
         rm -rf rust && \
     curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
