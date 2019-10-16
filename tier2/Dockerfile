@@ -2,7 +2,7 @@ FROM dmoj/runtimes-tier1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        jq apt-transport-https dirmngr gnupg ca-certificates openjdk-11-jdk-headless  clang ocaml ghc golang racket ruby scala nasm && \
+        jq apt-transport-https dirmngr gnupg ca-certificates openjdk-11-jdk-headless clang ocaml ghc golang racket ruby scala nasm && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy-")) | .links.self.href][0]')" | \
         tar xj -C /opt/pypy2 --strip-components=1 && /opt/pypy2/bin/pypy -mcompileall && \
