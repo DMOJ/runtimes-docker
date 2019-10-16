@@ -37,4 +37,4 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends chicken-bin && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH "/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}"
+ENV PATH="/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}" DMOJ_CARGO_OFFLINE="1"
