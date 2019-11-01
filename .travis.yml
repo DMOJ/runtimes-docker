@@ -9,10 +9,6 @@ matrix:
   include:
   - name: Build tier 1 Docker image
     env: TIER=tier1
-  - name: Build tier 2 Docker image
-    env: TIER=tier2
-  - name: Build tier 3 Docker image
-    env: TIER=tier3
 script:
   - make image-"${TIER}"
   - make test-"${TIER}"
