@@ -10,17 +10,17 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build tier 1 Docker image
-      run: make image-tier1
+      run: make TAG=amd64 image-tier1
     - name: Build tier 2 Docker image
-      run: make image-tier2
+      run: make TAG=amd64 image-tier2
     - name: Build tier 3 Docker image
-      run: make image-tier3
+      run: make TAG=amd64 image-tier3
     - name: Test tier 1 Docker image
-      run: make test-tier1
+      run: make TAG=amd64 test-tier1
     - name: Test tier 2 Docker image
-      run: make test-tier2
+      run: make TAG=amd64 test-tier2
     - name: Test tier 3 Docker image
-      run: make test-tier3
+      run: make TAG=amd64 test-tier3
     - name: Push images to Docker
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: |
