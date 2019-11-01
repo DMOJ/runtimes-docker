@@ -16,7 +16,7 @@ before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 deploy:
   provider: script
-  script: docker push dmoj/runtimes-tier1
+  script: docker push dmoj/runtimes-tier1:arm64
   on:
     branch: master
 notifications:
