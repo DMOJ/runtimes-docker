@@ -16,10 +16,10 @@ image-tier3: image-tier2
 test: test-tier1 test-tier2 test-tier3
 
 test-tier1:
-	docker run --rm -v "`pwd`/test":/code dmoj/runtimes-tier1:$(TAG)
+	docker run --rm -v "`pwd`/test":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier1:$(TAG)
 
 test-tier2:
-	docker run --rm -v "`pwd`/test":/code dmoj/runtimes-tier2:$(TAG)
+	docker run --rm -v "`pwd`/test":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier2:$(TAG)
 
 test-tier3:
-	docker run --rm -v "`pwd`/test":/code dmoj/runtimes-tier3:$(TAG)
+	docker run --rm -v "`pwd`/test":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier3:$(TAG)

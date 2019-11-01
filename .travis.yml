@@ -1,0 +1,24 @@
+sudo: required
+dist: bionic
+services:
+  - docker
+arch:
+  - arm64
+language: minimal
+matrix:
+  include:
+  - name: Build tier 1 Docker image
+    env: TIER=tier1
+script:
+  - make image-"${TIER}"
+  - sudo make test-"${TIER}"
+deploy:
+  provider: script
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push dmoj/runtimes-tier1
+  on:
+    branch: master
+notifications:
+  slack:
+    secure: "cJMFsXwvAZxSR/p8WFYUAtJmPxnq+MZKhXQgaHZp7D0tveh6v0/O/GDfO+3B3Ep7/SBNiAj/wfH/ivDVjiSWVN/2DYSiHtzMZ9Jkq2CQzMzX5u3l7J04bO617K8+eRGOFQcYj+GPRntF4GebSgfMuhXwba2N/KjAA9QMKOTlJpU="
