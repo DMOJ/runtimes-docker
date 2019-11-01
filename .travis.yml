@@ -10,13 +10,13 @@ matrix:
   - name: Build tier 1 Docker image
     env: TIER=tier1
 script:
-  - make image-"${TIER}"
-  - sudo make test-"${TIER}"
+  - make TAG=aarch64-latest image-"${TIER}"
+  - sudo make TAG=aarch64 test-"${TIER}"
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 deploy:
   provider: script
-  script: docker push dmoj/runtimes-tier1:arm64
+  script: docker push dmoj/runtimes-tier1
   on:
     branch: master
 notifications:
