@@ -1,6 +1,7 @@
 FROM debian:buster
 
-RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.d/stretch.list && \
+RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.d/stretch.list && \    
+    echo deb http://security.debian.org/debian-security stretch/updates main >> /etc/apt/sources.list.d/stretch.list && \
     echo 'APT::Default-Release "buster";' > /etc/apt/apt.conf.d/99stretch && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
