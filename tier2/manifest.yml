@@ -1,0 +1,7 @@
+image: dmoj/runtimes-tier2:latest
+manifests:
+  -
+    image: dmoj/runtimes-tier2:amd64-latest
+    platform:
+      architecture: amd64
+      os: linux
