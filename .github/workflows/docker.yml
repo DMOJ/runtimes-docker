@@ -28,6 +28,15 @@ jobs:
         docker push dmoj/runtimes-tier1:amd64-latest
         docker push dmoj/runtimes-tier2:amd64-latest
         docker push dmoj/runtimes-tier3:amd64-latest
+        docker run -v "$(pwd)":/code mplatform/manifest-tool \
+          --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD" \
+          push from-spec /code/tier1/manifest.yml
+        docker run -v "$(pwd)":/code mplatform/manifest-tool \
+          --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD" \
+          push from-spec /code/tier2/manifest.yml
+        docker run -v "$(pwd)":/code mplatform/manifest-tool \
+          --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD" \
+          push from-spec /code/tier3/manifest.yml
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
