@@ -22,7 +22,7 @@ jobs:
     - name: Test tier 3 Docker image
       run: make TAG=amd64-latest test-tier3
     - name: Push images to Docker
-      if: contains(['push', 'schedule'], github.event_name) && github.ref == 'refs/heads/master'
+      if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
       run: |
         echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
         docker push dmoj/runtimes-tier1:amd64-latest
