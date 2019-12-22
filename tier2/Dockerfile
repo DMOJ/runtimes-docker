@@ -33,12 +33,12 @@ RUN apt-get update && \
     echo 'deb [arch=amd64] https://apt.dmoj.ca/ stretch main non-free' > /etc/apt/sources.list.d/dmoj.list && \
     apt-get update && \
     (cd /tmp && \
-    apt download mono-roslyn && \
-    dpkg-deb -R mono-roslyn_*.deb roslyn/ && \
-    sed -i -e '/^Conflicts: chicken-bin/d' roslyn/DEBIAN/control && \
-    dpkg-deb -b roslyn mono-roslyn_no_conflict.deb && \
-    apt-get install -y --no-install-recommends mono-devel && \
-    dpkg -i mono-roslyn_no_conflict.deb) && \
+        apt download mono-roslyn && \
+        dpkg-deb -R mono-roslyn_*.deb roslyn/ && \
+        sed -i -e '/^Conflicts: chicken-bin/d' roslyn/DEBIAN/control && \
+        dpkg-deb -b roslyn mono-roslyn_no_conflict.deb && \
+        apt-get install -y --no-install-recommends mono-devel && \
+        dpkg -i mono-roslyn_no_conflict.deb) && \
     apt-get install -y --no-install-recommends mono-vbnc fsharp v8dmoj && \
     dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csc --rename /usr/bin/csc && \
     dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csi --rename /usr/bin/csi && \
