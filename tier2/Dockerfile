@@ -39,6 +39,7 @@ RUN apt-get update && \
         /etc/apt/sources.list.d/mono-official-stable.list && \
     curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     echo 'deb [arch=amd64] https://apt.dmoj.ca/ stretch main non-free' > /etc/apt/sources.list.d/dmoj.list && \
+    (echo 'Package: *'; echo 'Pin: origin download.mono-project.com'; echo 'Pin-Priority: 990') > /etc/apt/preferences.d/mono && \
     apt-get update && \
     (cd /tmp && \
         apt download mono-roslyn && \
