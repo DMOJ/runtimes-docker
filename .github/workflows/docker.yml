@@ -11,14 +11,14 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build tier 1 Docker image
       run: make TAG=amd64-latest image-tier1
-    - name: Build tier 2 Docker image
-      run: make TAG=amd64-latest image-tier2
-    - name: Build tier 3 Docker image
-      run: make TAG=amd64-latest image-tier3
     - name: Test tier 1 Docker image
       run: make TAG=amd64-latest test-tier1
+    - name: Build tier 2 Docker image
+      run: make TAG=amd64-latest image-tier2
     - name: Test tier 2 Docker image
       run: make TAG=amd64-latest test-tier2
+    - name: Build tier 3 Docker image
+      run: make TAG=amd64-latest image-tier3
     - name: Test tier 3 Docker image
       run: make TAG=amd64-latest test-tier3
     - name: Push images to Docker
