@@ -9,7 +9,7 @@ RUN apt-get update && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
         runuser -u judge -- opam init --shell-setup --disable-sandboxing && \
         runuser -u judge -- opam switch create compiler \
-            "$(runuser -u judge -- opam switch list-available | grep ocaml-base-compiler | cut -d' ' -f2 | sort -r | head -n1)"+flambda && \
+            "$(runuser -u judge -- opam switch list-available | grep ocaml-base-compiler | cut -d' ' -f2 | sort -r | head -n1)" && \
         runuser -u judge -- opam install -y base core stdio zarith \
     ) && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
