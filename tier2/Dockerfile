@@ -8,9 +8,8 @@ RUN apt-get update && \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
         runuser -u judge -- opam init --shell-setup --disable-sandboxing && \
-        runuser -u judge -- opam switch create compiler \
-            "$(runuser -u judge -- opam switch list-available | grep ocaml-base-compiler | cut -d' ' -f2 | sort -r | head -n1)" && \
-        runuser -u judge -- opam install -y base core stdio zarith \
+        runuser -u judge -- opam install -y base core stdio zarith && \
+        runuser -u judge -- opam clean && rm -rf ~judge/.opam/repo \
     ) && \
     mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
             jq -r '[.values[] | select(.name |startswith("pypy-")) | .links.self.href][0]')" | \
