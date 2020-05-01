@@ -4,7 +4,7 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
     echo 'deb [arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' > /etc/apt/sources.list.d/dart.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip libtinfo5 \
-        coffeescript open-cobol gnat gfortran tcl lua5.3 intercal php-cli dart/stable gforth swi-prolog pike8.0 sbcl && \
+        coffeescript open-cobol gnat gfortran tcl lua5.3 intercal php-cli dart/stable gforth swi-prolog pike8.0 sbcl xz-utils && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     curl "$(echo -n https://swift.org; curl -s https://swift.org/download/ | grep 'Ubuntu 18.04' | head -n 1 | cut -d'"' -f 2)" | \
@@ -18,6 +18,11 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
             jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select(.name | startswith("kotlin-compiler")) | .browser_download_url][0]')" && \
         unzip kotlin.zip && mv kotlinc /opt/kotlin && rm kotlin.zip && \
     curl -L -otprolog.zip "https://github.com/yingted/OpenTuring/releases/download/v1.0.0-beta/tprolog-v1.0.0-beta.zip" && \
-        unzip tprolog.zip && mv tprolog /opt && rm tprolog.zip
+        unzip tprolog.zip && mv tprolog /opt && rm tprolog.zip && \
+    mkdir /opt/zig && \
+        curl "https://ziglang.org/download/0.6.0/zig-linux-x86_64-0.6.0.tar.xz" --output zig.tar.xz && \
+        tar xf zig.tar.xz && \
+        mv zig-linux-x86_64-0.6.0/* /opt/zig && \
+        rm -r zig-linux-x86_64-0.6.0 && rm zig.tar.xz
 
-ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin"
+ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig"
