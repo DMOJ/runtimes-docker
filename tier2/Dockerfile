@@ -3,7 +3,7 @@ FROM dmoj/runtimes-tier1
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates \
-        openjdk-11-jdk-headless clang ghc golang racket ruby scala nasm libc6-dev-i386 && \
+        openjdk-15-jdk-headless clang ghc golang racket ruby scala nasm libc6-dev-i386 && \
     ( \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
