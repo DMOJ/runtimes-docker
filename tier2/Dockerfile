@@ -11,11 +11,9 @@ RUN apt-get update && \
         runuser -u judge -- opam install -y base core stdio zarith && \
         runuser -u judge -- opam clean && rm -rf ~judge/.opam/repo \
     ) && \
-    mkdir /opt/pypy2 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
-            jq -r '[.values[] | select(.name |startswith("pypy-")) | .links.self.href][0]')" | \
+    mkdir /opt/pypy2 && curl -L "$(curl https://www.pypy.org/download.html | grep /pypy2 | head -n1 | cut -d'"' -f4)" | \
         tar xj -C /opt/pypy2 --strip-components=1 && /opt/pypy2/bin/pypy -mcompileall && \
-    mkdir /opt/pypy3 && curl -L "$(curl https://api.bitbucket.org/2.0/repositories/squeaky/portable-pypy/downloads | \
-            jq -r '[.values[] | select(.name |startswith("pypy3")) | .links.self.href][0]')" | \
+    mkdir /opt/pypy3 && curl -L "$(curl https://www.pypy.org/download.html | grep /pypy3 | head -n1 | cut -d'"' -f4)" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
     runuser judge -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' && \
         mkdir rust && ( \
