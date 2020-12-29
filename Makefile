@@ -5,13 +5,13 @@ TAG ?= latest
 all: image-tier1 image-tier2 image-tier3
 
 image-tier1:
-	cd tier1 && docker build -t dmoj/runtimes-tier1 -t dmoj/runtimes-tier1:$(TAG) .
+	cd tier1 && docker build -t dmoj/runtimes-tier1 -t dmoj/runtimes-tier1:$(TAG) -t ghcr.io/dmoj/runtimes-tier1:$(TAG) .
 
 image-tier2: image-tier1
-	cd tier2 && docker build -t dmoj/runtimes-tier2 -t dmoj/runtimes-tier2:$(TAG) .
+	cd tier2 && docker build -t dmoj/runtimes-tier2 -t dmoj/runtimes-tier2:$(TAG) -t ghcr.io/dmoj/runtimes-tier2:$(TAG)  .
 
 image-tier3: image-tier2
-	cd tier3 && docker build -t dmoj/runtimes-tier3 -t dmoj/runtimes-tier3:$(TAG) .
+	cd tier3 && docker build -t dmoj/runtimes-tier3 -t dmoj/runtimes-tier3:$(TAG) -t ghcr.io/dmoj/runtimes-tier3:$(TAG)  .
 
 test: test-tier1 test-tier2 test-tier3
 
