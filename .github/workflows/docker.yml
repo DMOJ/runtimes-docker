@@ -40,3 +40,13 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push images to GitHub Containers
+      if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+      run: |
+        echo "$CR_PAT" | docker login ghcr.io -u "$CR_USER" --password-stdin
+        docker push ghcr.io/dmoj/runtimes-tier1:amd64-latest
+        docker push ghcr.io/dmoj/runtimes-tier2:amd64-latest
+        docker push ghcr.io/dmoj/runtimes-tier3:amd64-latest
+      env:
+        CR_USER: ${{ secrets.CR_USER }}
+        CR_PAT: ${{ secrets.CR_PAT }}
