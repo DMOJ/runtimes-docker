@@ -22,4 +22,4 @@ test-tier2:
 	docker run --rm -v "`pwd`/test":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier2
 
 test-tier3:
-	docker run --rm -v "`pwd`/test":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier3
+	docker run --rm -v "`pwd`/test-tier3":/code --cap-add=SYS_PTRACE dmoj/runtimes-tier3
