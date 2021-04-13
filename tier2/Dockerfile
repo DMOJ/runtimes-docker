@@ -13,8 +13,10 @@ RUN apt-get update && \
     ) && \
     mkdir /opt/pypy2 && curl -L "$(curl https://www.pypy.org/download.html | grep /pypy2 | head -n1 | cut -d'"' -f4)" | \
         tar xj -C /opt/pypy2 --strip-components=1 && /opt/pypy2/bin/pypy -mcompileall && \
+    rm -f /opt/pypy2/bin/python* && \
     mkdir /opt/pypy3 && curl -L "$(curl https://www.pypy.org/download.html | grep /pypy3 | head -n1 | cut -d'"' -f4)" | \
         tar xj -C /opt/pypy3 --strip-components=1 && /opt/pypy3/bin/pypy -mcompileall && \
+    rm -f /opt/pypy3/bin/python* && \
     runuser judge -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y' && \
         mkdir rust && ( \
             cd rust && \
