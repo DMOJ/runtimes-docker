@@ -21,12 +21,12 @@ RUN apt-get update && \
         mkdir rust && ( \
             cd rust && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
-                sed '/^CARGO_TOML/,/^'"'''"'/!d;//d' > Cargo.toml && \
+                sed '/^CARGO_TOML/,/^"""/!d;//d' > Cargo.toml && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
-                sed '/^CARGO_LOCK/,/^'"'''"'/!d;//d' > Cargo.lock && \
+                sed '/^CARGO_LOCK/,/^"""/!d;//d' > Cargo.lock && \
             mkdir src && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
-                sed '/^HELLO_WORLD_PROGRAM/,/^'"'''"'/!d;//d' > src/main.rs && \
+                sed '/^HELLO_WORLD_PROGRAM/,/^"""/!d;//d' > src/main.rs && \
             chown -R judge: . && \
             runuser -u judge /home/judge/.cargo/bin/cargo fetch \
         ) && \
