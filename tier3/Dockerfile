@@ -20,6 +20,6 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
     curl -L -otprolog.zip "https://github.com/yingted/OpenTuring/releases/download/v1.0.0-beta/tprolog-v1.0.0-beta.zip" && \
         unzip tprolog.zip && mv tprolog /opt && rm tprolog.zip && \
     mkdir /opt/zig && \
-        curl "https://ziglang.org/download/0.6.0/zig-linux-x86_64-0.6.0.tar.xz" | tar xJ -C /opt/zig  --strip-components=1
+        curl "$(curl -sSL https://ziglang.org/download/ | perl -ne 'print "$1\n" if /=([^=]+?zig-linux-x86_64-[\d.]+\.tar\.xz)/')" | tar xJ -C /opt/zig  --strip-components=1
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig"
