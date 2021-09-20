@@ -5,7 +5,9 @@ on:
   schedule:
     - cron: '0 0 * * 1'
 jobs:
-  build:
+  amd64:
+    permissions:
+      packages: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -47,6 +49,33 @@ jobs:
         docker push ghcr.io/dmoj/runtimes-tier1:amd64-latest
         docker push ghcr.io/dmoj/runtimes-tier2:amd64-latest
         docker push ghcr.io/dmoj/runtimes-tier3:amd64-latest
+      env:
+        CR_USER: ${{ secrets.CR_USER }}
+        CR_PAT: ${{ secrets.CR_PAT }}
+
+  arm64:
+    permissions:
+      packages: write
+    runs-on: [self-hosted, Linux, ARM64]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build tier 1 Docker image
+      run: make TAG=aarch64-latest image-tier1
+    - name: Test tier 1 Docker image
+      run: make TAG=aarch64-latest test-tier1
+    - name: Push images to Docker
+      if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+        docker push dmoj/runtimes-tier1:aarch64-latest
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push images to GitHub Containers
+      if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+      run: |
+        echo "$CR_PAT" | docker login ghcr.io -u "$CR_USER" --password-stdin
+        docker push ghcr.io/dmoj/runtimes-tier1:aarch64-latest
       env:
         CR_USER: ${{ secrets.CR_USER }}
         CR_PAT: ${{ secrets.CR_PAT }}
