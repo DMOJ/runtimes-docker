@@ -48,10 +48,12 @@ jobs:
         docker push ghcr.io/dmoj/runtimes-tier2:${{ matrix.arch.tag }}
         docker push ghcr.io/dmoj/runtimes-tier3:${{ matrix.arch.tag }}
       env:
-        CR_USER: ${{ secrets.CR_USER }}
-        CR_PAT: ${{ secrets.CR_PAT }}
+        CR_USER: ${{ github.actor }}
+        CR_PAT: ${{ secrets.GITHUB_TOKEN }}
 
   manifest:
+    permissions:
+      packages: write
     if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
@@ -83,5 +85,5 @@ jobs:
           docker manifest push "ghcr.io/dmoj/runtimes-$tier:latest"
         done
       env:
-        CR_USER: ${{ secrets.CR_USER }}
-        CR_PAT: ${{ secrets.CR_PAT }}
+        CR_USER: ${{ github.actor }}
+        CR_PAT: ${{ secrets.GITHUB_TOKEN }}
