@@ -71,3 +71,17 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push images to GitHub Containers
+      run: |
+        echo "$CR_PAT" | docker login ghcr.io -u "$CR_USER" --password-stdin
+        for tier in tier{1..3}; do
+          args=()
+          for arch in amd64 aarch64; do
+            args+=(--amend "ghcr.io/dmoj/runtimes-$tier:$arch-latest")
+          done
+          docker manifest create "ghcr.io/dmoj/runtimes-$tier:latest" "${args[@]}"
+          docker manifest push "ghcr.io/dmoj/runtimes-$tier:latest"
+        done
+      env:
+        CR_USER: ${{ secrets.CR_USER }}
+        CR_PAT: ${{ secrets.CR_PAT }}
