@@ -10,33 +10,36 @@ jobs:
       packages: write
     strategy:
       matrix:
-        arch:
-          - tag: amd64-latest
+        arch: [ amd64, arm64 ]
+        include:
+          - arch: amd64
+            tag: amd64-latest
             runner: ubuntu-latest
-          - tag: aarch64-latest
+          - arch: arm64
+            tag: aarch64-latest
             runner: [self-hosted, Linux, ARM64]
-    runs-on: ${{ matrix.arch.runner }}
+    runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v2
     - name: Build tier 1 Docker image
-      run: make TAG=${{ matrix.arch.tag }} image-tier1
+      run: make TAG=${{ matrix.tag }} image-tier1
     - name: Test tier 1 Docker image
-      run: make TAG=${{ matrix.arch.tag }} test-tier1
+      run: make TAG=${{ matrix.tag }} test-tier1
     - name: Build tier 2 Docker image
-      run: make TAG=${{ matrix.arch.tag }} image-tier2
+      run: make TAG=${{ matrix.tag }} image-tier2
     - name: Test tier 2 Docker image
-      run: make TAG=${{ matrix.arch.tag }} test-tier2
+      run: make TAG=${{ matrix.tag }} test-tier2
     - name: Build tier 3 Docker image
-      run: make TAG=${{ matrix.arch.tag }} image-tier3
+      run: make TAG=${{ matrix.tag }} image-tier3
     - name: Test tier 3 Docker image
-      run: make TAG=${{ matrix.arch.tag }} test-tier3
+      run: make TAG=${{ matrix.tag }} test-tier3
     - name: Push images to Docker
       if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
       run: |
         echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-        docker push dmoj/runtimes-tier1:${{ matrix.arch.tag }}
-        docker push dmoj/runtimes-tier2:${{ matrix.arch.tag }}
-        docker push dmoj/runtimes-tier3:${{ matrix.arch.tag }}
+        docker push dmoj/runtimes-tier1:${{ matrix.tag }}
+        docker push dmoj/runtimes-tier2:${{ matrix.tag }}
+        docker push dmoj/runtimes-tier3:${{ matrix.tag }}
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -44,9 +47,9 @@ jobs:
       if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
       run: |
         echo "$CR_PAT" | docker login ghcr.io -u "$CR_USER" --password-stdin
-        docker push ghcr.io/dmoj/runtimes-tier1:${{ matrix.arch.tag }}
-        docker push ghcr.io/dmoj/runtimes-tier2:${{ matrix.arch.tag }}
-        docker push ghcr.io/dmoj/runtimes-tier3:${{ matrix.arch.tag }}
+        docker push ghcr.io/dmoj/runtimes-tier1:${{ matrix.tag }}
+        docker push ghcr.io/dmoj/runtimes-tier2:${{ matrix.tag }}
+        docker push ghcr.io/dmoj/runtimes-tier3:${{ matrix.tag }}
       env:
         CR_USER: ${{ github.actor }}
         CR_PAT: ${{ secrets.GITHUB_TOKEN }}
