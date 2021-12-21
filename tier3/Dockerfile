@@ -12,7 +12,7 @@ RUN (cd /opt && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     if [ "$(arch)" = x86_64 ]; then \
-        curl "https://swift.org$(curl -s https://swift.org/download/ | grep 'Ubuntu 18.04' | grep 5.4 | head -n 1 | cut -d'"' -f 2)" | \
+        curl --compressed -L "$(curl --compressed -sL https://swift.org/download/ | grep 'Ubuntu 18.04' | grep 5.4 | head -n 1 | cut -d'"' -f 2)" | \
             tar xz -C /opt/swift --strip-components=1; fi && \
     curl -L -ogroovy.zip "$(curl -s https://groovy.apache.org/download.html | perl -ne 'if(/(['"'"'"])(https:[^'"'"'"]+-binary-[\d.]+\.zip)\1/){print$2;exit}')" && \
         unzip groovy.zip && \
