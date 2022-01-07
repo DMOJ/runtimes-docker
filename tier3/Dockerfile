@@ -27,8 +27,9 @@ RUN (cd /opt && \
             unzip tprolog.zip && mv tprolog /opt && rm tprolog.zip; fi && \
     mkdir /opt/zig && \
         curl "https://ziglang.org/download/0.6.0/zig-linux-$(arch)-0.6.0.tar.xz" | tar xJ -C /opt/zig --strip-components=1 && \
-    mkdir /opt/lean && \
+    if [ "$(arch)" = x86_64 ]; then \
+        mkdir /opt/lean && \
         curl --compressed -L "https://github.com/leanprover/lean4/releases/download/v4.0.0-m2/lean-4.0.0-m2-linux.tar.gz" | \
-        tar xz -C /opt/lean --strip-components=1
+        tar xz -C /opt/lean --strip-components=1; fi
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:/opt/dart-sdk/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
