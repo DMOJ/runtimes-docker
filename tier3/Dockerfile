@@ -30,6 +30,13 @@ RUN (cd /opt && \
     if [ "$(arch)" = x86_64 ]; then \
         mkdir /opt/lean && \
         curl --compressed -L "https://github.com/leanprover/lean4/releases/download/v4.0.0-m2/lean-4.0.0-m2-linux.tar.gz" | \
-        tar xz -C /opt/lean --strip-components=1; fi
+        tar xz -C /opt/lean --strip-components=1; fi && \
+    curl "https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb" --output packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update; \
+    apt-get install -y apt-transport-https && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-6.0
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:/opt/dart-sdk/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
