@@ -35,8 +35,6 @@ RUN (cd /opt && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
     apt-get update; \
-    apt-get install -y apt-transport-https && \
-    apt-get update && \
     apt-get install -y dotnet-sdk-6.0
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:/opt/dart-sdk/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
