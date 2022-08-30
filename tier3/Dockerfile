@@ -6,9 +6,12 @@ RUN (cd /opt && \
             curl -sSL https://storage.googleapis.com/dart-archive/channels/stable/release/latest/VERSION | jq -r .version \
         )/sdk/dartsdk-linux-$DART_ARCH-release.zip" && \
         unzip dart.zip && find /opt/dart-sdk -type d -exec chmod go+rx {} + && rm dart.zip) && \
+    curl "https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb" --output packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip libtinfo5 xz-utils \
-        coffeescript gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl && \
+        coffeescript gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl dotnet-sdk-6.0 && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     if [ "$(arch)" = x86_64 ]; then \
@@ -30,11 +33,6 @@ RUN (cd /opt && \
     if [ "$(arch)" = x86_64 ]; then \
         mkdir /opt/lean && \
         curl --compressed -L "https://github.com/leanprover/lean4/releases/download/v4.0.0-m2/lean-4.0.0-m2-linux.tar.gz" | \
-        tar xz -C /opt/lean --strip-components=1; fi && \
-    curl "https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb" --output packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    apt-get update && \
-    apt-get install -y dotnet-sdk-6.0
+        tar xz -C /opt/lean --strip-components=1; fi
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:/opt/dart-sdk/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
