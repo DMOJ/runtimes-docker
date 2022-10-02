@@ -3,7 +3,7 @@ FROM dmoj/runtimes-tier1
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates \
-        openjdk-17-jdk-headless clang ghc golang racket ruby scala nasm libc6-dev-i386 && \
+        openjdk-17-jdk-headless clang ghc golang racket ruby scala nasm libc6-dev-i386 chicken-bin && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
@@ -40,17 +40,16 @@ RUN apt-get update && \
     echo 'deb [arch=amd64] https://apt.dmoj.ca/ stretch main non-free' > /etc/apt/sources.list.d/dmoj.list && \
     (echo 'Package: *'; echo 'Pin: origin download.mono-project.com'; echo 'Pin-Priority: 990') > /etc/apt/preferences.d/mono && \
     apt-get update && \
+    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csc --rename /usr/bin/csc && \
+    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csi --rename /usr/bin/csi && \
     (cd /tmp && \
         apt download mono-roslyn && \
         dpkg-deb -R mono-roslyn_*.deb roslyn/ && \
         sed -i -e '/^Conflicts: chicken-bin/d' roslyn/DEBIAN/control && \
         dpkg-deb -b roslyn mono-roslyn_no_conflict.deb && \
-        apt-get install -y --no-install-recommends mono-devel && \
-        dpkg -i mono-roslyn_no_conflict.deb) && \
-    apt-get install -y --no-install-recommends mono-vbnc fsharp v8dmoj && \
-    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csc --rename /usr/bin/csc && \
-    dpkg-divert --package mono-roslyn --divert /usr/bin/chicken-csi --rename /usr/bin/csi && \
-    apt-get install -y --no-install-recommends chicken-bin && \
+        rm -rf roslyn/ && \
+        apt-get install -y --no-install-recommends mono-devel ./mono-roslyn_no_conflict.deb mono-vbnc fsharp v8dmoj && \
+        rm -f *.deb) && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:${PATH}" DMOJ_CARGO_OFFLINE="1"
