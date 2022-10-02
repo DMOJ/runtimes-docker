@@ -10,6 +10,7 @@ RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.
         python2 fp-compiler libxtst6 tini ca-certificates-java && \
     apt-get install -y -t stretch --no-install-recommends openjdk-8-jdk-headless openjdk-8-jre-headless && \
     apt-get install -y -t experimental --no-install-recommends g++-11 && \
+    mkdir -p /etc/perl && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -m judge
 
