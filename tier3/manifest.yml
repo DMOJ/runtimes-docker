@@ -5,3 +5,8 @@ manifests:
     platform:
       architecture: amd64
       os: linux
+  -
+    image: dmoj/runtimes-tier3:aarch64-latest
+    platform:
+      architecture: arm64
+      os: linux
