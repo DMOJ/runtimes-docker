@@ -7,7 +7,7 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &
         gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli dart/stable gforth swi-prolog pike8.0 sbcl && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
-    curl "$(curl --compressed -s https://www.swift.org/download/ | grep 'Ubuntu 18.04' | grep '<a' | head -n 1 | cut -d'"' -f 2)" | \
+    curl https://download.swift.org/swift-5.4.3-release/ubuntu1804/swift-5.4.3-RELEASE/swift-5.4.3-RELEASE-ubuntu18.04.tar.gz | \
         tar xz -C /opt/swift --strip-components=1 && \
     curl -L -ogroovy.zip "$(curl -s https://groovy.apache.org/download.html | perl -ne 'if(/(['"'"'"])(https:[^'"'"'"]+-binary-[\d.]+\.zip)\1/){print$2;exit}')" && \
         unzip groovy.zip && \
