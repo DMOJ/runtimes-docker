@@ -4,11 +4,11 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates \
         openjdk-17-jdk-headless clang ghc golang racket ruby scala nasm libc6-dev-i386 && \
-    ( \
+    ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
         runuser -u judge -- opam init --shell-setup --disable-sandboxing && \
-        runuser -u judge -- opam install -y base core stdio zarith && \
+        runuser -u judge -- opam install base core stdio zarith && \
         runuser -u judge -- opam clean && rm -rf ~judge/.opam/repo \
     ) && \
     mkdir /opt/pypy2 && curl -L "$(curl https://www.pypy.org/download.html | grep /pypy2 | head -n1 | cut -d'"' -f4)" | \
