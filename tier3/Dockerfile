@@ -29,7 +29,9 @@ RUN (cd /opt && \
         curl "https://ziglang.org/download/0.6.0/zig-linux-$(arch)-0.6.0.tar.xz" | tar xJ -C /opt/zig --strip-components=1 && \
     if [ "$(arch)" = x86_64 ]; then \
         mkdir /opt/lean && \
-            curl --compressed -L "https://github.com/leanprover/lean4/releases/download/v4.0.0-m2/lean-4.0.0-m2-linux.tar.gz" | \
-            tar xz -C /opt/lean --strip-components=1; fi
+        curl -L -olean.zip "https://github.com/leanprover/lean4/releases/download/v4.0.0-m5/lean-4.0.0-linux.zip" && \
+        unzip lean.zip && \
+        mv lean-*/* /opt/lean && \
+        rm -rf lean.zip lean-*; fi
 
 ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
