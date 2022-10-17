@@ -25,8 +25,6 @@ RUN apt-get update && \
             cd rust && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
                 sed '/^CARGO_TOML/,/^"""/!d;//d' > Cargo.toml && \
-            curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
-                sed '/^CARGO_LOCK/,/^"""/!d;//d' > Cargo.lock && \
             mkdir src && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
                 sed '/^HELLO_WORLD_PROGRAM/,/^"""/!d;//d' > src/main.rs && \
