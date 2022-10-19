@@ -27,7 +27,7 @@ RUN apt-get update && \
                 sed '/^CARGO_TOML/,/^"""/!d;//d' > Cargo.toml && \
             mkdir src && \
             curl -sL https://raw.githubusercontent.com/DMOJ/judge/master/dmoj/executors/RUST.py | \
-                sed '/^HELLO_WORLD_PROGRAM/,/^"""/!d;//d' > src/main.rs && \
+                sed '/^TEST_PROGRAM/,/^"""/!d;//d' > src/main.rs && \
             chown -R judge: . && \
             runuser -u judge /home/judge/.cargo/bin/cargo fetch \
         ) && \
