@@ -10,7 +10,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Build tier 1 Docker image
         run: make TAG=amd64-latest image-tier1
       - name: Test tier 1 Docker image
@@ -56,7 +56,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Build tier 1 Docker image
         run: make TAG=aarch64-latest image-tier1
       - name: Test tier 1 Docker image
