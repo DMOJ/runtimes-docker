@@ -53,4 +53,4 @@ RUN apt-get update && \
         rm -f *.deb) && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/dart-sdk/bin:${PATH}" DMOJ_CARGO_OFFLINE="1"
+ENV PATH="/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/dart-sdk/bin:${PATH}"
