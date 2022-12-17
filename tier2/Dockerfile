@@ -8,7 +8,8 @@ RUN apt-get update && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
-        runuser -u judge -- opam init --shell-setup --disable-sandboxing && \
+        runuser -u judge -- opam init --shell-setup --disable-sandboxing --bare && \
+        runuser -u judge -- opam switch create dmoj --packages=ocaml.5.0.0,ocaml-option-flambda && \
         runuser -u judge -- opam install base core stdio zarith && \
         runuser -u judge -- opam clean && rm -rf ~judge/.opam/repo \
     ) && \
