@@ -2,7 +2,7 @@ FROM dmoj/runtimes-tier1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        jq apt-transport-https dirmngr gnupg ca-certificates \
+        jq apt-transport-https dirmngr gnupg ca-certificates xz-utils \
         $([ "$(arch)" = x86_64 ] && echo libc6-dev-i386) $([ "$(arch)" = aarch64 ] && echo libffi6) \
         openjdk-19-jdk-headless clang llvm ghc golang racket ruby scala nasm chicken-bin && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
@@ -33,8 +33,8 @@ RUN apt-get update && \
             runuser -u judge /home/judge/.cargo/bin/cargo fetch \
         ) && \
         rm -rf rust && \
-    if [ "$(arch)" = x86_64 ]; then curl -L -odmd.deb "$(curl -s https://dlang.org/download.html | perl -ne 'if(/"([^"~]*_amd64.deb)/){print $1;exit}')" && \
-        apt install ./dmd.deb && rm dmd.deb; fi && \
+    if [ "$(arch)" = x86_64 ]; then curl -fsS https://dlang.org/install.sh | bash -s dmd --path /opt/dlang \
+        && mv /opt/dlang/dmd-*/* /opt/dlang && rmdir /opt/dlang/dmd-*; fi && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     echo "deb https://download.mono-project.com/repo/debian stable-buster main" > \
         /etc/apt/sources.list.d/mono-official-stable.list && \
@@ -54,4 +54,4 @@ RUN apt-get update && \
         rm -f *.deb) && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/dart-sdk/bin:${PATH}"
+ENV PATH="/opt/dlang/linux/bin64:/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/dart-sdk/bin:${PATH}"
