@@ -2,6 +2,5 @@
 mkdir /judge
 cd /judge || exit
 curl -L https://github.com/DMOJ/judge/archive/master.tar.gz | tar -xz --strip-components=1
-pip3 install --user -e .
 . ~judge/.profile
-runuser -u judge -w PATH -- bash -c '. ~/.profile; dmoj-autoconf -V'
+runuser -u judge -w PATH -- bash -c '. ~/.profile; pip3 install --user -e .; dmoj-autoconf -V'
