@@ -1,7 +1,6 @@
 FROM debian:sid
 
 RUN echo deb http://deb.debian.org/debian/ stretch main > /etc/apt/sources.list.d/stretch.list && \
-    echo deb http://security.debian.org/debian-security stretch/updates main >> /etc/apt/sources.list.d/stretch.list && \
     echo deb http://deb.debian.org/debian/ bullseye main > /etc/apt/sources.list.d/bullseye.list && \
     echo deb http://security.debian.org/debian-security bullseye-security main >> /etc/apt/sources.list.d/bullseye.list && \
     echo deb http://deb.debian.org/debian/ experimental main > /etc/apt/sources.list.d/experimental.list && \
