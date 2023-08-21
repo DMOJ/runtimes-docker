@@ -20,7 +20,7 @@ RUN (cd /opt && \
         mv groovy-*/* /opt/groovy && \
         rm -rf groovy.zip groovy-* && \
     curl -L -okotlin.zip "$(curl -s https://api.github.com/repos/JetBrains/kotlin/releases | \
-            jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select(.name | startswith("kotlin-compiler")) | .browser_download_url][0]')" && \
+            jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select((.name | startswith("kotlin-compiler")) and (.name | endswith(".zip"))) | .browser_download_url][0]')" && \
         unzip kotlin.zip && mv kotlinc /opt/kotlin && rm kotlin.zip && \
     if [ "$(arch)" = x86_64 ]; then \
         curl -L -otprolog.zip "https://github.com/yingted/OpenTuring/releases/download/v1.0.0-beta/tprolog-v1.0.0-beta.zip" && \
