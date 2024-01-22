@@ -6,9 +6,11 @@ RUN (cd /opt && \
             curl -sSL https://storage.googleapis.com/dart-archive/channels/stable/release/latest/VERSION | jq -r .version \
         )/sdk/dartsdk-linux-$DART_ARCH-release.zip" && \
         unzip dart.zip && find /opt/dart-sdk -type d -exec chmod go+rx {} + && rm dart.zip) && \
+    { curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; } && \
+    { echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main' > /etc/apt/sources.list.d/nodesource.list; } && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip libtinfo5 xz-utils libncurses5 \
-        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel && \
+        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel nodejs && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     if [ "$(arch)" = x86_64 ]; then \
