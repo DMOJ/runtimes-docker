@@ -8,7 +8,7 @@ RUN (cd /opt && \
         unzip dart.zip && find /opt/dart-sdk -type d -exec chmod go+rx {} + && rm dart.zip) && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip libtinfo5 xz-utils libncurses5 \
-        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl && \
+        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     if [ "$(arch)" = x86_64 ]; then \
