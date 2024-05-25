@@ -10,7 +10,7 @@ RUN (cd /opt && \
     { echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main' > /etc/apt/sources.list.d/nodesource.list; } && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip libtinfo5 xz-utils libncurses5 \
-        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel nodejs && \
+        gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel nodejs algol68g && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /opt/swift && \
     if [ "$(arch)" = x86_64 ]; then \
