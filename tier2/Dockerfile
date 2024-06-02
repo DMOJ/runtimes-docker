@@ -5,6 +5,8 @@ RUN apt-get update && \
         jq apt-transport-https dirmngr gnupg ca-certificates xz-utils \
         $([ "$(arch)" = x86_64 ] && echo libc6-dev-i386) \
         openjdk-22-jdk-headless clang llvm ghc golang racket ruby scala nasm chicken-bin && \
+    ls /usr/lib/jvm && \
+    ls /usr/lib/jvm/java-22* && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
@@ -52,6 +54,8 @@ RUN apt-get update && \
         rm -rf roslyn/ && \
         apt-get install -y --no-install-recommends mono-devel ./mono-roslyn_no_conflict.deb mono-vbnc fsharp v8dmoj && \
         rm -f *.deb) && \
+    ls /usr/lib/jvm && \
+    ls /usr/lib/jvm/java-22* && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/opt/dlang/linux/bin64:/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/dart-sdk/bin:${PATH}"
