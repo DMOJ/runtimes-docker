@@ -9,7 +9,7 @@ RUN echo deb http://deb.debian.org/debian/ bullseye main > /etc/apt/sources.list
         python2 fp-compiler libxtst6 tini ca-certificates-java openjdk-8-jdk-headless openjdk-8-jre-headless \
         $([ "$(arch)" = aarch64 ] && echo binutils-arm-linux-gnueabihf) && \
     mkdir -p /etc/perl && \
-    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
     useradd -m judge
 
 ENTRYPOINT ["/usr/bin/tini", "/code/run"]
