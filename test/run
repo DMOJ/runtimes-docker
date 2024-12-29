@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir /judge
 cd /judge || exit
-curl -L https://github.com/DMOJ/judge/archive/master.tar.gz | tar -xz --strip-components=1
+curl -L https://github.com/DMOJ/judge-server/archive/master.tar.gz | tar -xz --strip-components=1
 python3 -m venv --prompt=DMOJ env
 env/bin/pip3 install -e .
 runuser -u judge -w PATH -- bash -c '. ~/.profile; /judge/env/bin/dmoj-autoconf -V'
