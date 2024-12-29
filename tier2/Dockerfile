@@ -4,7 +4,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates xz-utils \
         $([ "$(arch)" = x86_64 ] && echo libc6-dev-i386) \
-        openjdk-22-jdk-headless clang llvm ghc golang racket ruby scala nasm chicken-bin && \
+        openjdk-22-jdk-headless clang llvm ghc golang"$([ "$(arch)" = aarch64 ] && echo -1.22)" racket ruby scala nasm chicken-bin && \
+    if [ "$(arch)" = aarch64 ]; then update-alternatives --install /usr/bin/go go /usr/lib/go-1.22/bin/go 50 \
+        --slave /usr/bin/gofmt gofmt /usr/lib/go-1.22/bin/gofmt; fi && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev pkg-config && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
