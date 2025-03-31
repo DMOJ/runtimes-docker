@@ -12,10 +12,6 @@ RUN (cd /opt && \
     apt-get install -y --no-install-recommends unzip libtinfo5 xz-utils libncurses5 \
         gnucobol4 gnat gfortran tcl lua5.3 intercal php-cli gforth swi-prolog pike8.0 sbcl gnustep-devel nodejs algol68g && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir /opt/swift && \
-    if [ "$(arch)" = x86_64 ]; then \
-        curl https://download.swift.org/swift-5.4.3-release/ubuntu1804/swift-5.4.3-RELEASE/swift-5.4.3-RELEASE-ubuntu18.04.tar.gz | \
-            tar xz -C /opt/swift --strip-components=1; fi && \
     curl -L -ogroovy.zip "$(curl -s https://groovy.apache.org/download.html | perl -ne 'if(/(['"'"'"])(https:[^'"'"'"]+-binary-[\d.]+\.zip)\1/){print$2;exit}')" && \
         unzip groovy.zip && \
         mkdir /opt/groovy && \
