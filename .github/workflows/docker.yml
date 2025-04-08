@@ -11,6 +11,8 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - name: Clean Docker images
+        run: make TAG=amd64-latest clean
       - name: Build tier 1 Docker image
         run: make TAG=amd64-latest image-tier1
       - name: Test tier 1 Docker image
@@ -57,6 +59,8 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - name: Clean Docker images
+        run: make TAG=aarch64-latest clean
       - name: Build tier 1 Docker image
         run: make TAG=aarch64-latest image-tier1
       - name: Test tier 1 Docker image
