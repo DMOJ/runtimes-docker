@@ -4,12 +4,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         jq apt-transport-https dirmngr gnupg ca-certificates xz-utils \
         $([ "$(arch)" = x86_64 ] && echo libc6-dev-i386) \
-        openjdk-22-jdk-headless clang llvm ghc golang racket ruby scala nasm chicken-bin && \
+        openjdk-25-jdk-headless clang llvm ghc golang racket ruby scala nasm chicken-bin && \
     ( export OPAMYES=1 OPAMJOBS=$(($(nproc) + 2)); \
         apt-get install -y --no-install-recommends make m4 patch unzip libgmp-dev pkg-config && \
         bash -c 'echo | sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh) --no-backup' && \
         runuser -u judge -- opam init --shell-setup --disable-sandboxing --bare && \
-        runuser -u judge -- opam switch create dmoj --packages=ocaml.5.0.0,ocaml-option-flambda && \
+        runuser -u judge -- opam switch create dmoj --packages=ocaml.5.4.1,ocaml-option-flambda && \
         runuser -u judge -- opam install base core stdio zarith && \
         runuser -u judge -- opam clean && rm -rf ~judge/.opam/repo \
     ) && \
@@ -37,9 +37,10 @@ RUN apt-get update && \
         && mv /opt/dlang/dmd-*/* /opt/dlang && rmdir /opt/dlang/dmd-*; fi && \
     gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     gpg --export --armor 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF > /usr/share/keyrings/mono-official-archive-keyring.asc && \
+    sed -i 's/sha1.second_preimage_resistance.*/sha1.second_preimage_resistance = 2099-01-01/' /usr/share/apt/default-sequoia.config && \
     echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.asc] https://download.mono-project.com/repo/debian stable-buster main" > \
         /etc/apt/sources.list.d/mono-official-stable.list && \
-    curl https://dmoj.ca/dmoj-apt.key -o /usr/share/keyrings/dmoj-keyring.asc && \
+    curl https://apt.quantum2.xyz/dmoj-apt.key -o /usr/share/keyrings/dmoj-keyring.asc && \
     echo 'deb [signed-by=/usr/share/keyrings/dmoj-keyring.asc] https://apt.dmoj.ca/ bullseye main' > /etc/apt/sources.list.d/dmoj.list && \
     (echo 'Package: *'; echo 'Pin: origin download.mono-project.com'; echo 'Pin-Priority: 990') > /etc/apt/preferences.d/mono && \
     apt-get update && \

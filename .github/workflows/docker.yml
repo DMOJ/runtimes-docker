@@ -16,6 +16,8 @@ jobs:
         run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clean Docker images
+        run: make TAG=amd64-latest clean
 
       - name: Build tier 1 Docker image
         run: make TAG=amd64-latest image-tier1
@@ -86,6 +88,8 @@ jobs:
         run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clean Docker images
+        run: make TAG=aarch64-latest clean
 
       - name: Build tier 1 Docker image
         run: make TAG=aarch64-latest image-tier1
