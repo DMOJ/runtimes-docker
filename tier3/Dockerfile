@@ -34,4 +34,4 @@ RUN (cd /opt && \
         rm -rf lean.zip lean-*; fi && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV PATH "/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
+ENV PATH="/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
