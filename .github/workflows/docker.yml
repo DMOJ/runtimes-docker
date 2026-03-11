@@ -42,6 +42,8 @@ jobs:
         run: |
           docker image tag dmoj/runtimes-tier3:amd64-latest ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test tier 1 Docker image
         run: make TAG=amd64-latest test-tier1
@@ -114,6 +116,8 @@ jobs:
         run: |
           docker image tag dmoj/runtimes-tier3:aarch64-latest ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test tier 1 Docker image
         run: make TAG=aarch64-latest test-tier1

@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ -n "$GITHUB_TOKEN" ]; then
+    curl_args=(--header "Authorization: Bearer $GITHUB_TOKEN")
+else
+    curl_args=()
+fi
+
+exec curl "${curl_args[@]}" -s "$@"

@@ -11,7 +11,10 @@ image-tier2: image-tier1
 	cd tier2 && docker build -t dmoj/runtimes-tier2 -t dmoj/runtimes-tier2:$(TAG) -t ghcr.io/dmoj/runtimes-tier2:$(TAG) .
 
 image-tier3: image-tier2
-	cd tier3 && docker build -t dmoj/runtimes-tier3 -t dmoj/runtimes-tier3:$(TAG) -t ghcr.io/dmoj/runtimes-tier3:$(TAG) .
+	cd tier3 && docker build -t dmoj/runtimes-tier3 -t dmoj/runtimes-tier3:$(TAG) -t ghcr.io/dmoj/runtimes-tier3:$(TAG) \
+	    --build-arg KOTLIN_ZIP_URL="$(shell ./github-curl https://api.github.com/repos/JetBrains/kotlin/releases | jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select((.name | startswith("kotlin-compiler")) and (.name | endswith(".zip"))) | .browser_download_url][0]')" \
+	    --build-arg LEAN4_ZIP_URL="$(shell ./github-curl https://api.github.com/repos/leanprover/lean4/releases | jq -r '[.[] | select(.prerelease | not) | .assets | flatten | .[] | select((.name | startswith("lean-")) and (.name | endswith("-linux.zip"))) | .browser_download_url][0]')" \
+	    .
 
 clean:
 	-docker rmi dmoj/runtimes-tier3 dmoj/runtimes-tier3:$(TAG) ghcr.io/dmoj/runtimes-tier3:$(TAG)
