@@ -20,7 +20,7 @@ clean:
 	-docker rmi dmoj/runtimes-tier3 dmoj/runtimes-tier3:$(TAG) ghcr.io/dmoj/runtimes-tier3:$(TAG)
 	-docker rmi dmoj/runtimes-tier2 dmoj/runtimes-tier2:$(TAG) ghcr.io/dmoj/runtimes-tier2:$(TAG)
 	-docker rmi dmoj/runtimes-tier1 dmoj/runtimes-tier1:$(TAG) ghcr.io/dmoj/runtimes-tier1:$(TAG)
-	docker builder prune -f
+	docker builder prune -a -f
 
 test: test-tier1 test-tier2 test-tier3
 
