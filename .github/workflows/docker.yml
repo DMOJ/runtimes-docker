@@ -11,31 +11,44 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      - name: Build tier 1 Docker image
-        run: make TAG=amd64-latest image-tier1
-      - name: Build tier 3 Docker image
-        run: make TAG=amd64-latest image-tier3
-      - name: Build tier 2 Docker image
-        run: make TAG=amd64-latest image-tier2
-      - name: Push bleeding images
+      - name: Log into GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run: |
-          echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
-          docker image tag dmoj/runtimes-tier1:amd64-latest ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
-          docker image tag dmoj/runtimes-tier2:amd64-latest ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
-          docker image tag dmoj/runtimes-tier3:amd64-latest ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build tier 1 Docker image
+        run: make TAG=amd64-latest image-tier1
+      - name: Push bleeding tier 1 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier1:amd64-latest ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
+
+      - name: Build tier 2 Docker image
+        run: make TAG=amd64-latest image-tier2
+      - name: Push bleeding tier 2 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier2:amd64-latest ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
+
+      - name: Build tier 3 Docker image
+        run: make TAG=amd64-latest image-tier3
+      - name: Push bleeding tier 3 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier3:amd64-latest ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
+
       - name: Test tier 1 Docker image
         run: make TAG=amd64-latest test-tier1
       - name: Test tier 2 Docker image
         run: make TAG=amd64-latest test-tier2
       - name: Test tier 3 Docker image
         run: make TAG=amd64-latest test-tier3
-      - name: Push images to Docker
+
+      - name: Push images to Docker Hub
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: |
           echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
@@ -54,45 +67,57 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Push images to GitHub Containers
+
+      - name: Push images to GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: |
-          echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
           docker push ghcr.io/dmoj/runtimes-tier1:amd64-latest
           docker push ghcr.io/dmoj/runtimes-tier2:amd64-latest
           docker push ghcr.io/dmoj/runtimes-tier3:amd64-latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   arm64:
     runs-on: [self-hosted, Linux, ARM64]
     permissions:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      - name: Build tier 1 Docker image
-        run: make TAG=aarch64-latest image-tier1
-      - name: Build tier 2 Docker image
-        run: make TAG=aarch64-latest image-tier2
-      - name: Build tier 3 Docker image
-        run: make TAG=aarch64-latest image-tier3
-      - name: Push bleeding images
+      - name: Log into GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run: |
-          echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
-          docker image tag dmoj/runtimes-tier1:arm64-latest ghcr.io/dmoj/runtimes-tier1:arm64-bleeding
-          docker image tag dmoj/runtimes-tier2:arm64-latest ghcr.io/dmoj/runtimes-tier2:arm64-bleeding
-          docker image tag dmoj/runtimes-tier3:arm64-latest ghcr.io/dmoj/runtimes-tier3:arm64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier1:arm64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier2:arm64-bleeding
-          docker push ghcr.io/dmoj/runtimes-tier3:arm64-bleeding
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build tier 1 Docker image
+        run: make TAG=aarch64-latest image-tier1
+      - name: Push bleeding tier 1 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier1:aarch64-latest ghcr.io/dmoj/runtimes-tier1:aarch64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier1:aarch64-bleeding
+
+      - name: Build tier 2 Docker image
+        run: make TAG=aarch64-latest image-tier2
+      - name: Push bleeding tier 2 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier2:aarch64-latest ghcr.io/dmoj/runtimes-tier2:aarch64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier2:aarch64-bleeding
+
+      - name: Build tier 3 Docker image
+        run: make TAG=aarch64-latest image-tier3
+      - name: Push bleeding tier 3 image
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
+        run:
+          docker image tag dmoj/runtimes-tier3:aarch64-latest ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
+          docker push ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
+
       - name: Test tier 1 Docker image
         run: make TAG=aarch64-latest test-tier1
       - name: Test tier 2 Docker image
         run: make TAG=aarch64-latest test-tier2
       - name: Test tier 3 Docker image
         run: make TAG=aarch64-latest test-tier3
+
       - name: Push images to Docker
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: |
@@ -103,12 +128,10 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Push images to GitHub Containers
+
+      - name: Push images to GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: |
-          echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
           docker push ghcr.io/dmoj/runtimes-tier1:aarch64-latest
           docker push ghcr.io/dmoj/runtimes-tier2:aarch64-latest
           docker push ghcr.io/dmoj/runtimes-tier3:aarch64-latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
