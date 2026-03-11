@@ -21,7 +21,7 @@ jobs:
         run: make TAG=amd64-latest image-tier1
       - name: Push bleeding tier 1 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier1:amd64-latest ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier1:amd64-bleeding
 
@@ -29,7 +29,7 @@ jobs:
         run: make TAG=amd64-latest image-tier2
       - name: Push bleeding tier 2 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier2:amd64-latest ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier2:amd64-bleeding
 
@@ -37,7 +37,7 @@ jobs:
         run: make TAG=amd64-latest image-tier3
       - name: Push bleeding tier 3 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier3:amd64-latest ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier3:amd64-bleeding
 
@@ -91,7 +91,7 @@ jobs:
         run: make TAG=aarch64-latest image-tier1
       - name: Push bleeding tier 1 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier1:aarch64-latest ghcr.io/dmoj/runtimes-tier1:aarch64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier1:aarch64-bleeding
 
@@ -99,7 +99,7 @@ jobs:
         run: make TAG=aarch64-latest image-tier2
       - name: Push bleeding tier 2 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier2:aarch64-latest ghcr.io/dmoj/runtimes-tier2:aarch64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier2:aarch64-bleeding
 
@@ -107,7 +107,7 @@ jobs:
         run: make TAG=aarch64-latest image-tier3
       - name: Push bleeding tier 3 image
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
-        run:
+        run: |
           docker image tag dmoj/runtimes-tier3:aarch64-latest ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
           docker push ghcr.io/dmoj/runtimes-tier3:aarch64-bleeding
 
