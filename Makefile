@@ -8,7 +8,9 @@ image-tier1:
 	cd tier1 && docker build -t dmoj/runtimes-tier1 -t dmoj/runtimes-tier1:$(TAG) -t ghcr.io/dmoj/runtimes-tier1:$(TAG) .
 
 image-tier2: image-tier1
-	cd tier2 && docker build -t dmoj/runtimes-tier2 -t dmoj/runtimes-tier2:$(TAG) -t ghcr.io/dmoj/runtimes-tier2:$(TAG) .
+	cd tier2 && docker build -t dmoj/runtimes-tier2 -t dmoj/runtimes-tier2:$(TAG) -t ghcr.io/dmoj/runtimes-tier2:$(TAG) \
+	    --build-arg SCALA_ZIP_URL="$(shell ./github-curl https://api.github.com/repos/scala/scala3/releases | jq -r "[.[] | select(.prerelease | not) | .assets | flatten | .[] | select((.name | startswith(\"scala3-\")) and (.name | endswith(\"$(shell arch)-pc-linux.tar.gz\"))) | .browser_download_url][0]")" \
+		.
 
 image-tier3: image-tier2
 	cd tier3 && docker build -t dmoj/runtimes-tier3 -t dmoj/runtimes-tier3:$(TAG) -t ghcr.io/dmoj/runtimes-tier3:$(TAG) \
