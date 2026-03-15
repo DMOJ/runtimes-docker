@@ -59,4 +59,4 @@ RUN apt-get update && \
         rm -f *.deb) && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/opt/dlang/linux/bin64:/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/scala/:/opt/dart-sdk/bin:${PATH}"
+ENV PATH="/opt/dlang/linux/bin64:/home/judge/.cargo/bin:/opt/pypy2/bin:/opt/pypy3/bin:/opt/scala/bin:/opt/dart-sdk/bin:${PATH}"
