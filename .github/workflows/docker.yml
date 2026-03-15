@@ -10,7 +10,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Log into GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
@@ -84,7 +84,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Log into GitHub Container Registry
         if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/master'
         run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
