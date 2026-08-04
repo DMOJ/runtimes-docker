@@ -37,3 +37,4 @@ RUN (cd /opt && \
 
 ENV PATH="/opt/tprolog:/opt/groovy/bin:/opt/kotlin/bin:${PATH}:/opt/swift/usr/bin:/opt/zig:/opt/lean/bin"
 ENV LEAN_SYSROOT="/opt/lean"
+ENV LEAN_MAIN_USE_THREAD="0"
