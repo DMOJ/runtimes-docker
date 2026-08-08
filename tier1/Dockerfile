@@ -16,4 +16,5 @@ RUN echo deb http://deb.debian.org/debian/ bullseye main > /etc/apt/sources.list
     rm -f /opt/pypy3/bin/python* && \
     useradd -m judge
 
+ENV PATH="/opt/pypy3/bin:${PATH}"
 ENTRYPOINT ["/usr/bin/tini", "/code/run"]
